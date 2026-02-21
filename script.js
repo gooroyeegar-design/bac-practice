@@ -2,11 +2,17 @@ let questions = [];
 let currentQuestionIndex = 0;
 let score = 0;
 
-// This fetches your 1000 questions
 async function loadQuestions() {
-    const response = await fetch('questions.json');
-    questions = await response.json();
-    showQuestion();
+    try {
+        const response = await fetch('questions.json');
+        if (!response.ok) throw new Error("File not found");
+        questions = await response.json();
+        if (questions.length === 0) throw new Error("JSON is empty");
+        showQuestion();
+    } catch (error) {
+        document.getElementById("question-text").innerText = "❌ Error: Make sure questions.json exists and is valid!";
+        console.error(error);
+    }
 }
 
 function showQuestion() {
@@ -25,24 +31,36 @@ function showQuestion() {
 }
 
 function checkAnswer(btn, selected, correct) {
+    const allBtns = document.querySelectorAll('.option-btn');
+    allBtns.forEach(b => b.disabled = true); // Prevent double clicking
+
     if (selected === correct) {
         btn.classList.add("correct");
         score++;
     } else {
         btn.classList.add("wrong");
+        // Show the correct one in green
+        allBtns.forEach(b => {
+            if (b.innerText === correct) b.classList.add("correct");
+        });
     }
+    
     document.getElementById("score").innerText = score;
     document.getElementById("total-seen").innerText = currentQuestionIndex + 1;
     document.getElementById("next-btn").classList.remove("hidden");
     
-    // Update progress
-    document.getElementById("progress-bar").style.width = `${((currentQuestionIndex+1)/questions.length)*100}%`;
+    let progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+    document.getElementById("progress-bar").style.width = `${progress}%`;
 }
 
 document.getElementById("next-btn").onclick = () => {
     currentQuestionIndex++;
-    document.getElementById("next-btn").classList.add("hidden");
-    showQuestion();
+    if (currentQuestionIndex < questions.length) {
+        document.getElementById("next-btn").classList.add("hidden");
+        showQuestion();
+    } else {
+        document.getElementById("quiz-box").innerHTML = `<h2>🎉 انتهى التحدي! النتيجة: ${score}/${questions.length}</h2>`;
+    }
 };
 
 loadQuestions();
