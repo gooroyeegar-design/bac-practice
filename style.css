@@ -1,64 +1,81 @@
+:root {
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --accent: #10b981;
+    --text: #f8fafc;
+    --error: #ef4444;
+}
+
 body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text);
     margin: 0;
-    font-family: "Tajawal", Arial, sans-serif;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .container {
-    width: 520px;
-    background: rgba(255,255,255,0.08);
-    padding: 40px;
+    width: 90%;
+    max-width: 800px;
+    background: var(--card-bg);
+    padding: 2rem;
     border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
     text-align: center;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 0 25px rgba(0,0,0,0.4);
 }
 
-h1 {
-    margin-bottom: 25px;
-}
-
-.subject {
-    font-size: 18px;
-    opacity: 0.8;
-    margin-bottom: 10px;
-}
-
-.question-box {
-    font-size: 22px;
-    min-height: 80px;
+.progress-container {
+    width: 100%;
+    height: 10px;
+    background: #334155;
+    border-radius: 5px;
     margin: 20px 0;
 }
 
-.buttons {
+#progress-bar {
+    width: 0%;
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.3s ease;
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
     margin-top: 20px;
 }
 
-button {
-    padding: 12px 20px;
-    margin: 8px;
-    border-radius: 10px;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-    background: #00c6ff;
+.option-btn {
+    background: #334155;
+    border: 2px solid transparent;
     color: white;
-    transition: 0.3s;
+    padding: 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 1.1rem;
 }
 
-button:hover {
-    background: #0072ff;
-    transform: scale(1.05);
+.option-btn:hover {
+    background: #475569;
 }
 
-.answer {
-    margin-top: 25px;
-    font-size: 20px;
+.correct { border-color: var(--accent); background: #064e3b !important; }
+.wrong { border-color: var(--error); background: #7f1d1d !important; }
+
+.hidden { display: none; }
+
+#next-btn {
+    margin-top: 30px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
     font-weight: bold;
-    color: #00ffcc;
+    cursor: pointer;
 }
